@@ -1,4 +1,17 @@
-<form method="POST" action="{{ url_for('send') }}">
-    <input type="text" name="text" placeholder="Ingresa tu pregunta" required>
-    <button type="submit">Enviar</button>
-</form>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Judini Agent</title>
+  </head>
+  <body>
+    <h1>Judini Agent</h1>
+    <form method="POST" action="{{ url_for('query') }}">
+      <input type="text" name="prompt" placeholder="Enter your query" />
+      <button type="submit">Send Query</button>
+    </form>
+    {% if response %}
+    <h2>Response:</h2>
+    <p>{{ response }}</p>
+    {% endif %}
+  </body>
+</html>
