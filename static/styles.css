@@ -1,45 +1,84 @@
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Apply the fade-in animation to the card element */
 .card {
+  animation: fade-in 0.5s ease;
   margin-bottom: 15px;
   background-color: #f8f8f8;
 }
+
 .button {
+  margin-top: 10px;
   background-color: #008530;
   color: white;
 }
+
 #responses-container {
   height: calc(100vh - 250px);
   overflow-y: auto;
   margin-top: 10px;
 }
-
+.header-container {
+  padding: 10px;
+}
 .form-control {
   height: 60px;
   padding-left: 8px;
   padding-right: 8px;
+  padding-top: 10px;
   background-color: #f8f8f8;
 }
+.form-row {
+  justify-content: center; /* Center the form elements horizontally */
+}
+
 .title-container {
   background-color: #008530;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 10px;
 }
+
 .title {
   padding-top: 10px;
   padding-bottom: 10px;
-
   color: white;
-  flex: 1; /* Allow the title to expand and occupy the remaining space */
+  font-weight: bold;
+  flex: 1;
+  text-align: center;
+  margin-right: 10px;
 }
+
 body {
   background-color: #e3e3e3;
 }
+
 .logo-container {
   display: flex;
   align-items: center;
+  margin-right: 10px;
 }
 
 .logo {
-  width: 100px; /* Adjust the width as needed */
+  display: flex;
   height: auto;
-  margin-right: 10px; /* Add spacing between the image and the title */
+}
+
+.container {
+  margin-top: 20px;
+}
+
+.spinner-style {
+  color: #008530;
+  width: 70px; /* Increase the width value */
+  height: 70px; /* Increase the height value */
+  border-width: 8px; /* Increase the border width */
 }
