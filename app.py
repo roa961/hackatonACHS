@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from judini.agent import Agent
 
 app = Flask(__name__)
@@ -16,12 +16,24 @@ def home():
 
 @app.route('/query', methods=['POST'])
 def query():
-    prompt = request.form['prompt']
-    
-    # Make a completion request
-    response = agent_instance.completion(prompt, stream=False)
-    
-    return render_template('index.html', response=response)
+    try:
+        prompt = request.get_json()['prompt']
+
+        # Make a completion request
+        response = agent_instance.completion(prompt, stream=False)
+
+        # If the response is a dict or list, it can be directly passed to jsonify
+        # If it's an instance of a custom class, you may need to convert it to a dict first
+        # This part may need to be modified based on the actual type of the `response`
+        return jsonify(response)
+    except Exception as e:
+        print("Error: " + str(e))
+        error_message = str(e)
+        error_response = {
+            'error': error_message
+        }
+        return jsonify(error_response), 400
+
 
 if __name__ == '__main__':
     app.run()
