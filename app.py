@@ -1,13 +1,15 @@
 from flask import Flask, render_template, request, jsonify
 from judini.agent import Agent
+import json
 
 app = Flask(__name__)
 
 # Replace with your actual API key and URL ID
 api_key = "ac3d74a1-3577-4552-96d1-60ee0c9196fc"
 agent_id = "c6f9c8dd-90ad-4553-8523-e8234e61de1f"
-
+agent_derivador_id= "b2f0e979-fd3c-4d8f-a7b7-a8eba6b54f76"
 # Initialize the Judini agent
+agent_derivador_instance = Agent(api_key,agent_derivador_id)
 agent_instance = Agent(api_key, agent_id)
 
 @app.route('/')
@@ -20,12 +22,33 @@ def query():
         prompt = request.get_json()['prompt']
 
         # Make a completion request
-        response = agent_instance.completion(prompt, stream=False)
+        response = agent_derivador_instance.completion(prompt, stream=False)
+        response = agent_derivador_instance.completion(prompt, stream=False)
+        print(response)
+        
+        # Obtener los valores del JSON de respuesta
+        
+        
+
+        response = agent_derivador_instance.completion(prompt, stream=False)
+        response_json = json.loads(response)
+
+        # Obtener los valores del JSON de respuesta
+        id_temporal = response_json["id"]
+        topico = response_json["topico"]
+        print(id_temporal)
+        print(topico)
+        
+        agent_aux_id = id_temporal
+        agnet_aux_instance = Agent(api_key,agent_aux_id)
+        response2= agnet_aux_instance.completion(prompt,stream=False)
+        
+        
 
         # If the response is a dict or list, it can be directly passed to jsonify
         # If it's an instance of a custom class, you may need to convert it to a dict first
         # This part may need to be modified based on the actual type of the `response`
-        return jsonify(response)
+        return jsonify(response2)
     except Exception as e:
         print("Error: " + str(e))
         error_message = str(e)
