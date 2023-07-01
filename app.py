@@ -21,8 +21,10 @@ def home():
 def query():
     try:
         prompt = request.get_json()['prompt']
+        prompt += ". Responde y explica de la forma mas completa posible.\n"
         try:
             response = agent_derivador_instance.completion(prompt, stream=False)
+            print(response)
             response_json = json.loads(response)
 
             # Obtener los valores del JSON de respuesta
@@ -35,7 +37,9 @@ def query():
             agent_aux_id = id_temporal
             agent_aux_instance = Agent(api_key,agent_aux_id)
             response2= agent_aux_instance.completion(prompt,stream=False)
-        except:
+        except Exception as e:
+            print("Error: " + str(e))
+            print("agente por defecto")
             response2 = agent_instance_default.completion(prompt, stream=False)
 
         # If the response is a dict or list, it can be directly passed to jsonify
@@ -52,4 +56,4 @@ def query():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=8000 ,debug=True)

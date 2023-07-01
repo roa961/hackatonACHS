@@ -16,6 +16,7 @@
 
 .button {
   margin-top: 10px;
+  margin-left: 20px;
   background-color: #008530;
   color: white;
 }
@@ -24,6 +25,7 @@
   height: calc(100vh - 250px);
   overflow-y: auto;
   margin-top: 10px;
+  margin-bottom: 100px;
 }
 .header-container {
   padding: 10px;
