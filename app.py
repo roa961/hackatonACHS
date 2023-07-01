@@ -6,11 +6,12 @@ app = Flask(__name__)
 
 # Replace with your actual API key and URL ID
 api_key = "ac3d74a1-3577-4552-96d1-60ee0c9196fc"
-agent_id = "c6f9c8dd-90ad-4553-8523-e8234e61de1f"
+agent_id_default = "c6f9c8dd-90ad-4553-8523-e8234e61de1f"
 agent_derivador_id= "b2f0e979-fd3c-4d8f-a7b7-a8eba6b54f76"
+agent_instance_default = Agent(api_key, agent_id_default)
 # Initialize the Judini agent
 agent_derivador_instance = Agent(api_key,agent_derivador_id)
-agent_instance = Agent(api_key, agent_id)
+#agent_instance = Agent(api_key, agent_id)
 
 @app.route('/')
 def home():
@@ -20,30 +21,22 @@ def home():
 def query():
     try:
         prompt = request.get_json()['prompt']
+        try:
+            response = agent_derivador_instance.completion(prompt, stream=False)
+            response_json = json.loads(response)
 
-        # Make a completion request
-        response = agent_derivador_instance.completion(prompt, stream=False)
-        response = agent_derivador_instance.completion(prompt, stream=False)
-        print(response)
-        
-        # Obtener los valores del JSON de respuesta
-        
-        
-
-        response = agent_derivador_instance.completion(prompt, stream=False)
-        response_json = json.loads(response)
-
-        # Obtener los valores del JSON de respuesta
-        id_temporal = response_json["id"]
-        topico = response_json["topico"]
-        print(id_temporal)
-        print(topico)
-        
-        agent_aux_id = id_temporal
-        agnet_aux_instance = Agent(api_key,agent_aux_id)
-        response2= agnet_aux_instance.completion(prompt,stream=False)
-        
-        
+            # Obtener los valores del JSON de respuesta
+            
+            id_temporal = response_json["id"]
+            topico = response_json["topico"]
+            print(id_temporal)
+            print(topico)
+            
+            agent_aux_id = id_temporal
+            agent_aux_instance = Agent(api_key,agent_aux_id)
+            response2= agent_aux_instance.completion(prompt,stream=False)
+        except:
+            response2 = agent_instance_default.completion(prompt, stream=False)
 
         # If the response is a dict or list, it can be directly passed to jsonify
         # If it's an instance of a custom class, you may need to convert it to a dict first
@@ -59,4 +52,4 @@ def query():
 
 
 if __name__ == '__main__':
-    app.run(port=8000, debug=True)
+    app.run()
